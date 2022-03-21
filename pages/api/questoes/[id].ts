@@ -6,7 +6,8 @@ export default function handler(req, res) {
   const questao = questoes.filter(questao => questao.id === idSel )
 
   if (questao.length > 0) {
-    res.status(200).json(questao[0].paraObjeto())
+    const qsel = questao[0].embaralharRespostas()
+    res.status(200).json(qsel.paraObjeto())
   } else {
     res.status(204).send()  // 204 = No Content
   }
