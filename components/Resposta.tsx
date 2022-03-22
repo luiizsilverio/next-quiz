@@ -6,7 +6,7 @@ interface Props {
   indice: number
   letra: string
   bgColor: string
-  onSeleciona(indice: number): void
+  respostaFornecida(indice: number): void
 }
 
 export default function Resposta(props: Props) {
@@ -14,7 +14,7 @@ export default function Resposta(props: Props) {
 
   return (
     <div className={styles.resposta}
-      onClick={() => props.onSeleciona(props.indice)}
+      onClick={() => props.respostaFornecida(props.indice)}
     >
       <div className={styles.conteudo}>
         {

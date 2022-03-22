@@ -4,7 +4,8 @@
   margin-bottom: 15px;
   min-width: 500px;
   width: 80%;
-  transition: 0.2s;
+  transition: all 0.2s ease-in-out;
+  /* transition: 0.2s; */
 }
 
 .resposta:hover {

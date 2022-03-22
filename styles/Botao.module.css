@@ -7,12 +7,13 @@
   border: none;
   padding: 10px 25px;
   margin-top: 10px;
-  transition: 0.2s;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
 }
 
 .botao:hover {
   filter: brightness(1.05);
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 
 .botao:active {

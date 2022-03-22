@@ -13,7 +13,7 @@ const letras = [
 
 interface QuestaoProps {
   valor: QuestaoModel
-  onSeleciona(indice: number): void
+  respostaFornecida(indice: number): void
   tempoEsgotado(): void
 }
 
@@ -37,7 +37,7 @@ export default function Questao(props: QuestaoProps) {
             valor={resp}
             bgColor={letras[i].cor}
             key={resp.valor}
-            onSeleciona={props.onSeleciona}
+            respostaFornecida={props.respostaFornecida}
           />
         ))
       }
