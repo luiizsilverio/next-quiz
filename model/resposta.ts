@@ -40,4 +40,13 @@ export default class RespostaModel {
       revelada: this.#revelada,
     }
   }
+
+  static importaObjeto(obj: RespostaModel): RespostaModel {
+    return new RespostaModel(
+      obj.valor,
+      obj.certa,
+      obj.revelada
+    )
+  }
+
 }

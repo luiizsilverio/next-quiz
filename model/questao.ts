@@ -39,16 +39,16 @@ export default class QuestaoModel {
     for(let resp of this.#respostas) {
       if (resp.revelada) return true
     }
-
     return false
   }
 
   responder(indice: number): QuestaoModel {
     const acertou = this.#respostas[indice]?.certa
-    const respostas = this.#respostas.map((resp, i) => {
+    const respostas = this.#respostas.map((resp: RespostaModel, i) => {
       const respSelecionada = (indice === i)
       const deveRevelar = respSelecionada || resp.certa
-      return deveRevelar ? resp.revelar() : resp
+      const newResp = new RespostaModel(resp.valor, resp.certa, true)
+      return deveRevelar ? newResp : resp
     })
 
     return new QuestaoModel(this.#id, this.#enunciado, respostas, acertou)
@@ -68,4 +68,15 @@ export default class QuestaoModel {
       respostas: this.#respostas.map(resp => resp.paraObjeto())
     }
   }
+
+  static importaObjeto(obj: QuestaoModel): QuestaoModel {
+    const respostas = obj.respostas.map(resp => RespostaModel.importaObjeto(resp))
+    return new QuestaoModel(
+      obj.id,
+      obj.enunciado,
+      obj.respostas,
+      obj.acertou
+    )
+  }
+
 }

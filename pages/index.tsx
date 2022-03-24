@@ -6,16 +6,16 @@ import RespostaModel from '../model/resposta'
 
 const BASE_URL = 'http://localhost:3000/api'
 
-const questaoTeste = new QuestaoModel(1, 'Cor da capa do Batman', [
-  RespostaModel.errada('Vermelha'),
-  RespostaModel.certa('Preta'),
-  RespostaModel.errada('Cinza'),
-  RespostaModel.errada('Roxa'),
-])
+// const questaoTeste = new QuestaoModel(1, 'Cor da capa do Batman', [
+//   RespostaModel.errada('Vermelha'),
+//   RespostaModel.certa('Preta'),
+//   RespostaModel.errada('Cinza'),
+//   RespostaModel.errada('Roxa'),
+// ])
 
 export default function Home() {
   const [idQuestoes, setIdQuestoes] = useState<number[]>([])
-  const [questao, setQuestao] = useState<QuestaoModel>(questaoTeste)
+  const [questao, setQuestao] = useState<QuestaoModel>()
 
   function responder(indice: number) {
     setQuestao(questao.responder(indice))
@@ -28,7 +28,7 @@ export default function Home() {
   }
 
   function questaoRespondida(questao: QuestaoModel) {
-
+    setQuestao(questao)
   }
 
   function irProxPagina() {
@@ -38,11 +38,12 @@ export default function Home() {
   async function carregarQuestao(idQuestao: number) {
     const resp = await fetch(`${BASE_URL}/questoes/${idQuestao}`)
     const json = await resp.json()
-    console.log(json)
+    const novaQuestao = QuestaoModel.importaObjeto(json)
+    setQuestao(novaQuestao)
   }
 
 
-  async function carregarQuestoes() {
+  async function carregarQuestionario() {
     const resp = await fetch(`${BASE_URL}/questionario`)
     const ids = await resp.json()
     setIdQuestoes(ids)
@@ -50,7 +51,7 @@ export default function Home() {
 
 
   useEffect(() => {
-    carregarQuestoes()
+    carregarQuestionario()
   }, [])
 
 
