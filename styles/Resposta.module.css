@@ -1,11 +1,13 @@
 .resposta {
   display: flex;
   height: 85px;
-  margin-bottom: 15px;
+  margin: 10px 0;
   min-width: 500px;
+  max-width: 600px;
   width: 80%;
   transition: all 0.2s ease-in-out;
   /* transition: 0.2s; */
+  perspective: 1000px;
 }
 
 .resposta:hover {
@@ -19,9 +21,15 @@
 }
 
 .conteudo {
+  position: relative;
   display: flex;
   flex: 1;
-  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s;
+}
+
+.conteudo.revelada {
+  transform: rotateY(180deg);
 }
 
 .frente, .verso {
@@ -29,6 +37,9 @@
   height: 100%;
   width: 100%;
   position: absolute;
+
+  backface-visibility: hidden;
+  --webkit-backface-visibility: hidden;
 }
 
 .frente {
@@ -37,6 +48,11 @@
   border-radius: 12px;
   color: navy;
   padding: 15px;
+}
+
+.verso {
+  transform: rotateY(180deg);
+
 }
 
 .verso > div {

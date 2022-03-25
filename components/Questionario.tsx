@@ -33,6 +33,7 @@ export default function Questionario(props: Props) {
         texto={props.ultima ? 'Finalizar' : 'Próxima'}
         onClick={props.irProxPagina}
       />
+
     </div>
   )
 }

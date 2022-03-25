@@ -1,21 +1,16 @@
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Questionario from '../components/Questionario'
 import QuestaoModel from '../model/questao'
-import RespostaModel from '../model/resposta'
 
 const BASE_URL = 'http://localhost:3000/api'
-
-// const questaoTeste = new QuestaoModel(1, 'Cor da capa do Batman', [
-//   RespostaModel.errada('Vermelha'),
-//   RespostaModel.certa('Preta'),
-//   RespostaModel.errada('Cinza'),
-//   RespostaModel.errada('Roxa'),
-// ])
 
 export default function Home() {
   const [idQuestoes, setIdQuestoes] = useState<number[]>([])
   const [questao, setQuestao] = useState<QuestaoModel>()
+  const [respCertas, setRespCertas] = useState(0)
+  const router = useRouter()
 
   function responder(indice: number) {
     setQuestao(questao.responder(indice))
@@ -29,10 +24,35 @@ export default function Home() {
 
   function questaoRespondida(questao: QuestaoModel) {
     setQuestao(questao)
+    if (questao.acertou) {
+      setRespCertas(prev => prev + 1)
+    }
+  }
+
+  function idProxPergunta() {
+    if (questao) {
+      const proxId = idQuestoes.indexOf(questao.id) + 1
+      return idQuestoes[proxId]
+    }
   }
 
   function irProxPagina() {
+    const proxId = idProxPergunta()
+    proxId ? irParaProxQuestao(proxId) : finalizar()
+  }
 
+  function irParaProxQuestao(id: number) {
+    carregarQuestao(id)
+  }
+
+  function finalizar() {
+    router.push({
+      pathname: "/resultado",
+      query: {
+        total: idQuestoes.length,
+        certas: respCertas
+      }
+    })
   }
 
   async function carregarQuestao(idQuestao: number) {
@@ -63,19 +83,22 @@ export default function Home() {
 
 
   return (
-    <>
+    <div>
       <Head>
         <title>Quiz 🏆</title>
         <meta name="description" content="Jogo de Perguntas" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Questionario
-        questao={questao}
-        ultima={false}
-        questaoRespondida={questaoRespondida}
-        irProxPagina={irProxPagina}
-      />
-    </>
+      {
+        questao &&
+          <Questionario
+            questao={questao}
+            ultima={idProxPergunta() === undefined}
+            questaoRespondida={questaoRespondida}
+            irProxPagina={irProxPagina}
+          />
+      }
+    </div>
   )
 }
