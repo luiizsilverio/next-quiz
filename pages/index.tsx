@@ -87,7 +87,7 @@ export default function Home() {
       <Head>
         <title>Quiz 🏆</title>
         <meta name="description" content="Jogo de Perguntas" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.png" />
       </Head>
 
       {
